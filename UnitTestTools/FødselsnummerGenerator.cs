@@ -4,15 +4,17 @@ namespace UnitTestTools
 {
     public class FødselsnummerGenerator
     {
-        public Fødselsnummer GenerateRandom(DateTime date)
+        private static readonly Random _random = new Random();
+
+        public Fødselsnummer GenerateRandom(DateTime birthDate)
         {
-            var range = GetRange(date.Year);
+            var range = GetIndividSifferRange(birthDate.Year);
             var generator = new KontrollsifferGenerator();
 
             do
             {
                 var pnr = GetRandom(range);
-                var fnr = date.ToString("ddMMyy") + pnr.ToString("D3");
+                var fnr = birthDate.ToString("ddMMyy") + pnr.ToString("D3");
 
                 string value;
                 try
@@ -32,9 +34,23 @@ namespace UnitTestTools
 
         public Fødselsnummer GenerateRandom()
         {
-            //return new Fødselsnummer("12125650001");
-            return GenerateRandom(new DateTime(1904, 12, 16));
+            return GenerateRandom(GetRandomBirthDate());
         }
+
+        private static DateTime GetRandomBirthDate()
+        {
+            const int minYear = 1854;
+            const int maxYear = 2039;
+
+            var randomYear = _random.Next(minYear, maxYear);
+            var randomDay = _random.Next(0, 365);
+
+            var date = new DateTime(randomYear, 01, 01);
+            date = date.AddDays(randomDay);
+
+            return date;
+        }
+
         private int GetRandom(Range range)
         {
             return GetRandom(range.Min, range.Max);
@@ -42,11 +58,10 @@ namespace UnitTestTools
 
         private static int GetRandom(int min, int max)
         {
-            var rand = new Random();
-            return rand.Next(min, max);
+            return _random.Next(min, max);
         }
 
-        private Range GetRange(int birthYear)
+        private Range GetIndividSifferRange(int birthYear)
         {
             if (birthYear.Between(1854, 1899))
             {
@@ -68,9 +83,9 @@ namespace UnitTestTools
             throw new ArgumentOutOfRangeException("birthYear", "Unknown birthyear: " + birthYear);
         }
 
-        private Range OneOf(Range range, Range range1)
+        private static Range OneOf(Range range, Range range1)
         {
-            return (new Random().Next() % 2 == 0) ? range : range1;
+            return (_random.Next() % 2 == 0) ? range : range1;
         }
     }
 }
