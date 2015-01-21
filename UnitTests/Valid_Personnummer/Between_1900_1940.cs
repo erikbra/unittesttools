@@ -5,7 +5,7 @@ using Xunit;
 
 namespace UnitTests.Valid_Individnummer
 {
-    public class After_1900
+    public class Between_1900_1940
     {
         [Fact]
         public void Is_Between_000_and_499()

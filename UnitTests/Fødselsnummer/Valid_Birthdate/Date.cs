@@ -1,4 +1,5 @@
-﻿using UnitTestTools;
+﻿using System;
+using UnitTestTools;
 using Xunit;
 
 namespace UnitTests.Valid_Birthdate
@@ -14,7 +15,7 @@ namespace UnitTests.Valid_Birthdate
 
         private static Fødselsnummer GetFødselsnummer()
         {
-            return new Fødselsnummer("10010100000");
+            return new FødselsnummerGenerator().GenerateRandom(new DateTime(1901, 01, 31));
         }
     }
 }

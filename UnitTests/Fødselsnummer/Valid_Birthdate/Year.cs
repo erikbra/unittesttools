@@ -1,4 +1,7 @@
-﻿using UnitTestTools;
+﻿using System;
+using System.Diagnostics;
+using System.Globalization;
+using UnitTestTools;
 using Xunit;
 
 namespace UnitTests.Valid_Birthdate
@@ -8,26 +11,43 @@ namespace UnitTests.Valid_Birthdate
         [Fact]
         public void Is_Between_1900_and_1999_000_499()
         {
-            var birthDate = GetFødselsnummer("101220", "000").BirthDate;
+            var birthDate = GetFødselsnummer(new DateTime(1920, 10, 12)).BirthDate;
             Assert.Equal(1920, birthDate.Year);
 
-            birthDate = GetFødselsnummer("101220", "315").BirthDate;
+            birthDate = GetFødselsnummer(new DateTime(1920, 10, 12)).BirthDate;
             Assert.Equal(1920, birthDate.Year);
 
-            birthDate = GetFødselsnummer("101220", "499").BirthDate;
+            birthDate = GetFødselsnummer(new DateTime(1920, 10, 12)).BirthDate;
             Assert.Equal(1920, birthDate.Year);
         }
 
         [Fact]
         public void Is_Before_1899_500_749()
         {
-            var birthYear = GetFødselsnummer("101220", "500").BirthDate.Year;
-            Assert.Equal(1820, birthYear);
+            var fødselsnummer = GetFødselsnummer(new DateTime(1854, 10, 12));
+            var birthYear = fødselsnummer.BirthDate.Year;
+            Debug.WriteLine(fødselsnummer);
+
+            Assert.Equal(1854, birthYear);
         }
 
-        private static Fødselsnummer GetFødselsnummer(string birthdate, string personnummer)
+        [Fact]
+        public void Is_After_2000_500_999()
         {
-            return new Fødselsnummer(string.Format("{0}{1}00", birthdate, personnummer));
+            var birthYear = GetFødselsnummer(new DateTime(2020, 10, 12)).BirthDate.Year;
+            Assert.Equal(2020, birthYear);
+        }
+
+        [Fact]
+        public void Is_Between_1940_1999_999()
+        {
+            var birthYear = GetFødselsnummer(new DateTime(1940, 10, 12)).BirthDate.Year;
+            Assert.Equal(1940, birthYear);
+        }
+
+        private static Fødselsnummer GetFødselsnummer(DateTime birthDate)
+        {
+            return new FødselsnummerGenerator().GenerateRandom(birthDate);
         }
     }
 }
