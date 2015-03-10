@@ -27,13 +27,9 @@ namespace UnitTestTools
         {
             char[] chars = text.ToCharArray();
 
-            if (chars.Length != weights.Length)
-            {
-                throw new ArgumentException("Length of text must equal number of weights");
-            }
+            ValidateParameters(weights, chars);
 
             var sum = 0;
-
             for (var i = 0; i < chars.Length; i++)
             {
                 int val = chars[i] - '0';
@@ -45,6 +41,14 @@ namespace UnitTestTools
             if (res == 11) res = 0;
 
             return res;
+        }
+
+        private void ValidateParameters(int[] weights, char[] chars)
+        {
+            if (chars.Length != weights.Length)
+            {
+                throw new ArgumentException("Length of text must equal number of weights");
+            }
         }
     }
 }
