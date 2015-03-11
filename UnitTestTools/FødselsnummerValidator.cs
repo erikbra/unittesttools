@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace UnitTestTools
+﻿namespace UnitTestTools
 {
     public class FødselsnummerValidator
     {
@@ -18,11 +12,10 @@ namespace UnitTestTools
         public void Validate(string fødselsnummer)
         {
             var fnr = fødselsnummer.Substring(0, 9);
-            var kontrollSiffer = fødselsnummer.Substring(9, 2);
-            if (!kontrollSiffer.Equals(_kontrollsifferGenerator.GenerateKontrollsiffer(fnr)))
-            {
-                throw new InvalidModuloException("Invalid modulo 11");
-            }
-        }
+            var k1 = int.Parse(fødselsnummer.Substring(9, 1));
+            var k2 = int.Parse(fødselsnummer.Substring(10, 1));
+
+            _kontrollsifferGenerator.Validate(fnr, k1, k2);
+       }
     }
 }

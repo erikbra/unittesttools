@@ -19,10 +19,10 @@ namespace UnitTestTools
                 string value;
                 try
                 {
-                    value = fnr + generator.GenerateKontrollsiffer(fnr);
+                    value = fnr + generator.Generate(fnr);
                 }
-                    // Some moduli end up as 10, but those are not used.
-                catch (InvalidModuloException)
+                // Some moduli end up as 10, but those are not used.
+                catch (InvalidModulo11)
                 {
                     continue;
                 }
@@ -65,11 +65,11 @@ namespace UnitTestTools
         {
             if (birthYear.Between(1854, 1899))
             {
-                return new Range(500,749);
+                return new Range(500, 749);
             }
             if (birthYear.Between(2000, 2039))
             {
-                return new Range(500,999);
+                return new Range(500, 999);
             }
             if (birthYear.Between(1940, 1999))
             {

@@ -40,8 +40,9 @@
     <Compile Include="Fødselsnummer.cs" />
     <Compile Include="FødselsnummerGenerator.cs" />
     <Compile Include="FødselsnummerValidator.cs" />
-    <Compile Include="InvalidModuloException.cs" />
+    <Compile Include="InvalidModulo11.cs" />
     <Compile Include="KontrollsifferGenerator.cs" />
+    <Compile Include="Modulo11.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Range.cs" />
   </ItemGroup>

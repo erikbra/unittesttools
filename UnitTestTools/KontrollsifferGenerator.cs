@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace UnitTestTools
 {
     public class KontrollsifferGenerator
@@ -15,40 +9,18 @@ namespace UnitTestTools
         {
         }
 
-        public string GenerateKontrollsiffer(string fnr)
+        public string Generate(string fnr)
         {
-            var mod1 = CalculateMod11(fnr, _weights1);
-            var mod2 = CalculateMod11(fnr + mod1, _weights2);
+            var mod1 = new Modulo11(fnr, _weights1).Calculate();
+            var mod2 = new Modulo11(fnr + mod1, _weights2).Calculate();
 
             return "" + mod1 + mod2;
         }
 
-        private int CalculateMod11(string text, int[] weights)
+        public void Validate(string fnr, int kontrollsiffer1, int kontrollsiffer2)
         {
-            char[] chars = text.ToCharArray();
-
-            ValidateParameters(weights, chars);
-
-            var sum = 0;
-            for (var i = 0; i < chars.Length; i++)
-            {
-                int val = chars[i] - '0';
-                sum += (val * weights[i]);
-            }
-
-            var mod = sum % 11;
-            var res = 11 - mod;
-            if (res == 11) res = 0;
-
-            return res;
-        }
-
-        private void ValidateParameters(int[] weights, char[] chars)
-        {
-            if (chars.Length != weights.Length)
-            {
-                throw new ArgumentException("Length of text must equal number of weights");
-            }
+            new Modulo11(fnr, _weights1).Validate(kontrollsiffer1);
+            new Modulo11(fnr + kontrollsiffer1, _weights2).Validate(kontrollsiffer2);
         }
     }
 }
